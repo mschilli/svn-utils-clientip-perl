@@ -1,0 +1,24 @@
+######################################################################
+    SVN::Utils::ClientIP 0.01
+######################################################################
+
+NAME
+    SVN::Utils::ClientIP - blah blah blah
+
+SYNOPSIS
+        use SVN::Utils::ClientIP;
+
+DESCRIPTION
+    SVN::Utils::ClientIP blah blah blah.
+
+EXAMPLES
+      $ perl -MSVN::Utils::ClientIP -le 'print $foo'
+
+LEGALESE
+    Copyright 2010 by Mike Schilli, all rights reserved. This program is
+    free software, you can redistribute it and/or modify it under the same
+    terms as Perl itself.
+
+AUTHOR
+    2010, Mike Schilli <cpan@perlmeister.com>
+

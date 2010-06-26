@@ -1,0 +1,11 @@
+#!/usr/local/bin/perl -w
+###########################################
+# xx -- 
+# Mike Schilli, 2010 (m@perlmeister.com)
+###########################################
+use strict;
+use Sysadm::Install qw(:all);
+
+use ClientIP qw(ssh_client_ip);
+
+my $ip = SVN::Utils::ClientIP::ssh_client_ip();
