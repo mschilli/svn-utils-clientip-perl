@@ -5,3 +5,4 @@ MANIFEST.bak
 adm
 .cvsignore
 CVS
+*.gz

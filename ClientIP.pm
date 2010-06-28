@@ -6,7 +6,7 @@ use warnings;
 require Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(ssh_client_ip);
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 use Proc::ProcessTable;
 use Proc::Info::Environment;
@@ -16,11 +16,14 @@ sub ssh_client_ip {
 ###########################################
 
     my $finder = __PACKAGE__->new();
-    my $ip = $finder->ssh_client_ip_find();
+
+    my($ip, $pid, $port) = $finder->ssh_client_ip_find();
     
     if( !defined $ip ) {
         warn $finder->error();
     }
+
+      # only IP
     return $ip;
 }
 
@@ -70,7 +73,14 @@ sub ssh_client_ip_find {
         }
 
         if( exists $env->{ $self->{ssh_client_var_name} } ) {
-            return $env->{ $self->{ssh_client_var_name} };
+            my($ip, $pid, $port) = split /\s+/, 
+                               $env->{ $self->{ssh_client_var_name} };
+
+            if( wantarray ) {
+                return ($ip, $pid, $port);
+            }
+
+            return $ip;
         }
     }
 
@@ -158,6 +168,22 @@ the full object notation:
     } else {
         print "IP address not found: ", $finder->error(), "\n";
     }
+
+The SSH_CLIENT variable of the ssh process contains not only the 
+client's IP address, but also the pid of the process and the port
+the client docked on to (typically 22). It looks something like this:
+
+    "123.123.123.123 57890 22"
+
+The convenience function ssh_client_ip returns only the first part. If
+you call the object method in scalar context, it also returns only 
+the IP address and skips the two following fields. If you want all
+fields, use ssh_client_ip_find() in list context:
+
+    my($ip, $pid, $port) = $finder->ssh_client_ip_find();
+
+and $pid and $port will be populated with the values found after
+separating blanks in SSH_CLIENT.
 
 =head1 LEGALESE
 
